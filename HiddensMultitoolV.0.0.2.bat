@@ -1,5 +1,5 @@
 @echo off
-title Hiddens Multitool V.0.0.1
+title Hiddens Multitool V.0.0.2
 chcp 65001 >nul
 :mainmenu
 cls
@@ -18,12 +18,14 @@ echo 1 - Steam Store
 echo 2 - Youtube
 echo 3 - Suggestions
 echo 4 - Credits
+echo 5 - Notes
 
 set /p a=Select An Option [%user%]:
 if "%a%"=="1" goto steam
 if "%a%"=="2" goto youtube
 if "%a%"=="3" goto suggestions
 if "%a%"=="4" goto credits
+if "%a%"=="5" goto notes
 
 :steam
 msg * Opened Steam Store
@@ -48,3 +50,19 @@ echo Hidden - Main Founder
 echo                2025 ©️ Hidden Codes Inc.
 pause
 goto mainmenu
+
+:notes
+:notes
+cls
+color 0F
+echo ===============================
+echo              NOTES
+echo ===============================
+echo Type your notes below.
+echo (Enter ";" on a new line to return to menu)
+echo ===============================
+
+
+set /p note=Note: 
+if "%note%"==";" goto mainmenu
+echo %note% >> notes.txt
