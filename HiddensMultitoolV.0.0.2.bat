@@ -19,6 +19,8 @@ echo 2 - Youtube
 echo 3 - Suggestions
 echo 4 - Credits
 echo 5 - Notes
+echo 6 - Calculator
+echo 7 - Stopwatch
 
 set /p a=Select An Option [%user%]:
 if "%a%"=="1" goto steam
@@ -26,6 +28,8 @@ if "%a%"=="2" goto youtube
 if "%a%"=="3" goto suggestions
 if "%a%"=="4" goto credits
 if "%a%"=="5" goto notes
+if "%a%"=="6" goto calculator
+if "%a%"=="7" goto stopwatch
 
 :steam
 msg * Opened Steam Store
@@ -52,7 +56,6 @@ pause
 goto mainmenu
 
 :notes
-:notes
 cls
 color 0F
 echo ===============================
@@ -66,3 +69,58 @@ echo ===============================
 set /p note=Note: 
 if "%note%"==";" goto mainmenu
 echo %note% >> notes.txt
+
+:calculator
+cls
+echo ===============================
+echo           CALCULATOR
+echo ===============================
+set /p math=Enter calculation (or ; to exit): 
+if "%math%"==";" goto mainmenu
+
+rem do the math
+set /a result=%math%
+echo Result: %result%
+pause
+goto calculator
+
+:stopwatch
+cls
+echo ===============================
+echo            STOPWATCH
+echo ===============================
+echo Press any key to start stopwatch...
+pause >nul
+setlocal enabledelayedexpansion
+
+set /a seconds=0
+set /a minutes=0
+set /a hours=0
+
+:swloop
+cls
+echo ===============================
+echo            STOPWATCH
+echo ===============================
+echo   Time: !hours!h:!minutes!m:!seconds!s
+echo ===============================
+echo Press Q to stop and return to main menu.
+
+:: wait 1 second or key press
+choice /c QN /n /t 1 /d N >nul
+if errorlevel 2 goto tick     :: if N (timeout), keep going
+if errorlevel 1 goto mainmenu :: if Q, exit to main menu
+
+:tick
+:: increment time
+set /a seconds+=1
+if !seconds! GEQ 60 (
+    set /a seconds=0
+    set /a minutes+=1
+)
+if !minutes! GEQ 60 (
+    set /a minutes=0
+    set /a hours+=1
+)
+
+goto swloop
