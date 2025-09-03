@@ -21,6 +21,7 @@ echo 4 - Credits
 echo 5 - Notes
 echo 6 - Calculator
 echo 7 - Stopwatch
+echo 8 - Lets Go Gambling!
 
 set /p a=Select An Option [%user%]:
 if "%a%"=="1" goto steam
@@ -30,6 +31,7 @@ if "%a%"=="4" goto credits
 if "%a%"=="5" goto notes
 if "%a%"=="6" goto calculator
 if "%a%"=="7" goto stopwatch
+if "%a%"=="8" goto slotmachine
 
 :steam
 msg * Opened Steam Store
@@ -47,7 +49,7 @@ start https://docs.google.com/forms/d/e/1FAIpQLSe3DikKobLbiaiiDj6aaBpo7dHBcrMdtC
 goto mainmenu
 
 :credits
-
+cls
 
 echo Hidden - Main Founder
 
@@ -124,3 +126,39 @@ if !minutes! GEQ 60 (
 )
 
 goto swloop
+
+:slotmachine
+cls
+echo ===============================
+echo         SLOT MACHINE
+echo ===============================
+echo Press ENTER to spin!
+pause >nul
+
+:: Define slot symbols (ASCII-safe)
+set symbols=@ $ # * 7
+
+:: Generate 3 random symbols
+set /a s1=%random% %% 5 + 1
+set /a s2=%random% %% 5 + 1
+set /a s3=%random% %% 5 + 1
+
+:: Assign symbols using call
+for /f "tokens=%s1%" %%a in ("%symbols%") do set slot1=%%a
+for /f "tokens=%s2%" %%a in ("%symbols%") do set slot2=%%a
+for /f "tokens=%s3%" %%a in ("%symbols%") do set slot3=%%a
+
+:: Display result
+echo -------------------------------
+echo      %slot1%   %slot2%   %slot3%
+echo -------------------------------
+
+:: Check if all three match
+if "%slot1%%slot2%%slot3%"=="%slot1%%slot1%%slot1%" (
+    echo JACKPOT! You win!
+) else (
+    echo Better luck next time!
+)
+
+pause
+goto mainmenu
